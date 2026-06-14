@@ -1,0 +1,16 @@
+deb-locations.diff
+distutils-install-layout.diff
+tkinter-import.diff
+gdbm-import.diff
+link-opt.diff
+setup-modules.diff
+langpack-gettext.diff
+disable-sem-check.diff
+ctypes-arm.diff
+multiarch.diff
+reproducible-buildinfo.diff
+sysconfigdata-name.patch
+destshared-location.patch
+test-no-random-order.patch
+disable-a-few-xml-tests.patch
+relax-autoconf-version.patch
