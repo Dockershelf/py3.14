@@ -1,7 +1,7 @@
 Source: @PVER@
 Section: python
 Priority: optional
-Maintainer: Matthias Klose <doko@debian.org>
+Maintainer: Luis Alejandro Martínez Faneyth <luis@luisalejandro.org>
 Build-Depends: debhelper (>= 9), @bd_dpkgdev@
   quilt, autoconf,
   lsb-release, sharutils,
@@ -18,8 +18,8 @@ Build-Depends: debhelper (>= 9), @bd_dpkgdev@
   net-tools, xvfb, xauth
 Build-Depends-Indep: python3-sphinx, texinfo
 Standards-Version: 4.3.0
-Vcs-Browser: https://salsa.debian.org/cpython-team/python3
-Vcs-Git: https://salsa.debian.org/cpython-team/python3.git
+Vcs-Browser: https://github.com/Dockershelf/py3.14
+Vcs-Git: https://github.com/Dockershelf/py3.14.git
 XS-Testsuite: autopkgtest
 
 Package: @PVER@
