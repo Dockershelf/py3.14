@@ -47,7 +47,6 @@ export SPHINXOPTS
 
 on_buildd := $(shell [ -f /CurrentlyBuilding -o "$$LOGNAME" = buildd -o "$$USER" = buildd ] && echo yes)
 
-dh_compat2 := $(shell dpkg --compare-versions "$$(dpkg-query -f '$${Version}' -W debhelper)" lt 9.20150811ubuntu2 && echo DH_COMPAT=2)
 
 ifneq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
   WITHOUT_CHECK := yes
@@ -75,12 +74,6 @@ ifneq (,$(filter parallel=%,$(subst $(COMMA), ,$(DEB_BUILD_OPTIONS))))
   NJOBS := -j $(subst parallel=,,$(filter parallel=%,$(subst $(COMMA), ,$(DEB_BUILD_OPTIONS))))
 endif
 
-distribution := $(shell lsb_release -is)
-distrelease  := $(shell lsb_release -cs)
-derivative      := $(shell \
-	if dpkg-vendor --derives-from Ubuntu; then echo Ubuntu; \
-	elif dpkg-vendor --derives-from Debian; then echo Debian; \
-	else echo Unknown; fi)
 
 VER=3.14
 SVER=3.14.0~a0
@@ -109,26 +102,10 @@ ifeq ($(DEFAULT_VERSION),yes)
 else
   PY_PRIO = optional
 endif
-ifeq ($(distribution),Ubuntu)
-  PY_MINPRIO = required
-  PY_MINPRIO = optional
-  # test_ssl assumes that openssl is compiled with security level set to 1
-  # make it so, during the build
-  export OPENSSL_CONF = $(CURDIR)/debian/openssl.cnf
-else
-  PY_MINPRIO = $(PY_PRIO)
-endif
-ifeq (,$(filter $(distrelease),lenny etch squeeze wheezy lucid maverick natty oneiric))
-  bd_qual = :any
-endif
-ifeq (,$(filter $(distrelease),lenny etch squeeze wheezy lucid maverick natty oneiric))
-  ma_filter = cat
-else
-  ma_filter = grep -v '^Multi-Arch:'
-endif
-ifeq (,$(filter $(distrelease),lenny etch squeeze wheezy lucid maverick natty oneiric precise quantal raring saucy trusty))
-  bd_dpkgdev = dpkg-dev (>= 1.17.11),
-endif
+PY_MINPRIO = $(PY_PRIO)
+bd_qual = :any
+ma_filter = cat
+bd_dpkgdev = dpkg-dev (>= 1.17.11),
 
 CC=$(DEB_HOST_GNU_TYPE)-gcc
 CXX=$(DEB_HOST_GNU_TYPE)-g++
@@ -211,11 +188,6 @@ sysconfig_substflags = \
 	-e 's,^RUNSHARED *=.*,RUNSHARED=,' \
 	-e '/BLDLIBRARY/s/-L\. //'
 
-ifeq ($(derivative),Ubuntu)
-  arch_substvars =
-else ifeq ($(derivative),Debian)
-  arch_substvars = # '-Vpython38:Breaks=$(shell tr '\n' ' ' < debian/py38-breaks.$(derivative))'
-endif
 
 make_build_target = $(if $(filter yes, $(with_pgo)),profile-opt)
 
@@ -671,13 +643,6 @@ control-file:
 		debian/control.in \
 	      | $(ma_filter) \
 	      > debian/control.tmp
-ifeq ($(distribution),Ubuntu)
-  ifneq (,$(findstring ubuntu, $(PKGVERSION)))
-	m='Ubuntu Core Developers <ubuntu-devel-discuss@lists.ubuntu.com>'; \
-	sed -i "/^Maintainer:/s/\(.*\)/Maintainer: $$m\nXSBC-Original-\1/" \
-	  debian/control.tmp
-  endif
-endif
 	[ -e debian/control ] \
 	  && cmp -s debian/control debian/control.tmp \
 	  && rm -f debian/control.tmp && exit 0; \

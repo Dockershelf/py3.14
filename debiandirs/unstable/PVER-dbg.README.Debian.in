@@ -19,19 +19,6 @@ For the latter, all extension modules have to be recompiled to
 correctly load with an pydebug enabled build.
 
 
-Debian and Ubuntu specific changes to the debug interpreter
------------------------------------------------------------
-The python2.4 and python2.5 packages in Ubuntu feisty are modified to
-first look for extension modules under a different name.
-
-  normal build: foo.so
-  debug build:  foo_d.so foo.so
-
-This naming schema allows installation of the extension modules into
-the same path (The naming is directly taken from the Windows builds
-which already uses this naming scheme).
-
-See https://wiki.ubuntu.com/PyDbgBuilds for more information.
 
 
 Using the python-dbg builds

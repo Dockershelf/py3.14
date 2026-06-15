@@ -201,7 +201,7 @@ developer updates any of the dependent packages, you will need to:
  * ``quilt push`` to the ensurepip patch, and update the version number in
    ``Lib/ensurepip/__init__.py``
 
-Then rebuild and upload python3.4.
+Then rebuild and publish packages.
 
 Yes, this isn't ideal, and I am working with upstream to find a good solution
 that we can share.
