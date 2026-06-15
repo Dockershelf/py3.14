@@ -7,10 +7,7 @@ Debian packaging for CPython 3.14: patches, `debiandirs/`, and changelog tracks 
 - `trixie`
 - `unstable`
 
-Packaging trees live under `debiandirs/<suite>/`. Changelog tracks:
-
-- **mainline** — `changelogs/mainline/<suite>`
-- **nightly** — `changelogs/nightly/<suite>`
+Packaging trees live under `debiandirs/<suite>/`. Changelogs live under `changelogs/mainline/<suite>`.
 
 ## Build (from workspace)
 
@@ -30,4 +27,4 @@ See the [operations manual](https://github.com/Dockershelf/python-pipeline/blob/
 | `cpython/` | Upstream CPython git submodule |
 | `patches/` | Quilt series applied at materialize |
 | `debiandirs/` | Per-suite Debian packaging (`trixie`, `unstable`) |
-| `changelogs/` | `mainline` and `nightly` dch history per suite |
+| `changelogs/mainline/` | Debian changelog history per suite |
